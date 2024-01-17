@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Analysis and Rate Prediction</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            }
+
+        h1 {
+            width: 500px;
+            margin: 0 auto; 
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 3rem;
+            }
+
+        form {
+            width: 500px;
+            margin: 0 auto;
+            padding: 2rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            }
+
+        label {
+            display: block;
+            margin: 0.5rem 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            }
+
+        textarea,
+        input {
+            width: 97%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: sans-serif;
+            }
+        
+        textarea {
+            height: 120px;
+            }
+
+        button {
+            display: block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            }
+
+        #result {
+            margin-top: 2rem;
+            text-align: center;
+            font-weight: bold;
+            }
+    </style>
+
+</head>
+<body>
+    <h1>Review Analysis and Rate Prediction</h1>
+    
+    <form action="/firstapi/" method="POST" enctype="application/x-www-form-urlencoded">
+
+
+        <label for="review_title">Review Title:</label>
+        <input type="text" id="review_title" name="review_title" required>
+
+        <label for="review">Review:</label>
+        <textarea id="review" name="review" rows="10" required></textarea>
+
+        <button type="submit">Analyze and Predict</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        const analyzePredictForm = document.getElementById('analyze-predict-form');
+        const resultElement = document.getElementById('result');
+        
+        analyzePredictForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+        
+            const formData = new FormData(analyzePredictForm);
+        
+            fetch('/firstapi/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const sentimentLabel = data['sentiment'];
+                    const rating = data['prediction'];
+        
+                    resultElement.textContent = `Sentiment: ${sentimentLabel}, Pre: ${rating}`;
+                });
+        });        
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analyzer</title>
+</head>
+<body>
+    <h1>Text Analyzer</h1>
+    <form id="textForm" onsubmit="submitForm(event)">
+        <label for="reviewTitle">Review Title:</label>
+        <input type="text" id="reviewTitle" name="reviewTitle" required><br>
+
+        <label for="reviewText">Review Text:</label>
+        <textarea id="reviewText" name="reviewText" rows="4" required></textarea><br>
+
+        <button type="submit">Analyze Text</button>
+    </form>
+
+    <h2>Result:</h2>
+    <p id="prediction">Prediction: </p>
+    <p id="sentiment">Sentiment: </p>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault();  // Prevent the default form submission behavior
+
+            var reviewTitle = document.getElementById("reviewTitle").value;
+            var reviewText = document.getElementById("reviewText").value;
+
+            var data = {
+                "review_title": reviewTitle,
+                "review": reviewText
+            };
+
+            fetch("/firstapi/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById("prediction").innerText = "Prediction: " + result.prediction;
+                document.getElementById("sentiment").innerText = "Sentiment: " + result.sentiment;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html> -->
